@@ -20,8 +20,7 @@ namespace Wisielec
             string success ="Brawo! Odgadłeś słowo! - ";
             string fail = "Niestety! Przegrałeś :( Słowem było: ";
 
-            Random rnd = new Random();
-            StreamWriter sw = new StreamWriter(@"results.txt", true);
+            Random rnd = new Random();           
 
             List<string> list_of_words = new();                             //lista słów
             List<string> hints = new();                                    //litery wygenerowane przez podpowiedź
@@ -44,6 +43,7 @@ namespace Wisielec
             {
                 hints.Clear();
                 lives = 10;
+                status = "";
                 word = list_of_words[rnd.Next(0, list_of_words.Count)];      //losowanie słowa z tablicy list_of_words              
                 char[] ghost = Ghost(word);                                 //funkcja tworzy tablicę char wypełnioną myślnikami w ilości długości słowa word
                 List<string> typed = new();                                //lista wpisywanych liter  
@@ -258,17 +258,13 @@ namespace Wisielec
 
                 if (lives < 1 && Array.IndexOf(ghost, '-') != -1)
                 {
+                    SaveToFile(fail + word);
                     Console.WriteLine(fail + word);
-                    DateTime time = DateTime.Now;
-
-                    sw.WriteLine("{0} {1}", time, fail);
                 }
                 else
                 {
-                    Console.WriteLine(success + word);
-                    DateTime time = DateTime.Now;
-
-                    sw.WriteLine("{0} {1}", time, success);
+                    SaveToFile(success +  word);
+                    Console.WriteLine(success + word);                    
                 }
 
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -276,11 +272,8 @@ namespace Wisielec
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Wciśnij Q, żeby zakończyć");
 
-                if (Console.ReadKey().Key == ConsoleKey.Q)
-                {
-                    sw.Close();
-                    break;
-                }
+                if (Console.ReadKey().Key == ConsoleKey.Q) break;
+ 
                 else
                 {
                     Console.Clear();
@@ -325,6 +318,15 @@ namespace Wisielec
                 ghost[j] = '-';
             }
             return ghost;
+        }
+
+        static void SaveToFile(string result)
+        {
+            using (StreamWriter sw = new StreamWriter("results.txt", true))
+            {
+                DateTime time = DateTime.Now;
+                sw.WriteLine($"{time} {result}");
+            }
         }
     }
 }
