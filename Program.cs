@@ -16,19 +16,28 @@ namespace Wisielec
             string status = "";
             int lives;
 
+            //komunikaty końcowe
+            string success ="Brawo! Odgadłeś słowo! - ";
+            string fail = "Niestety! Przegrałeś :( Słowem było: ";
+
             Random rnd = new Random();
-            StreamReader sr = new StreamReader(@"dictionary.txt");
             StreamWriter sw = new StreamWriter(@"results.txt", true);
 
             List<string> list_of_words = new();                             //lista słów
             List<string> hints = new();                                    //litery wygenerowane przez podpowiedź
 
-            while (!list_of_words.Contains("%finish"))                    //pobranie listy słów z pliku dictionary
+
+            //pobranie listy słów z pliku dictionary
+            using (StreamReader sr = new StreamReader("dictionary.txt"))
             {
-                list_of_words.Add(sr.ReadLine());
+                string w = sr.ReadLine();
+
+                while (w != null)
+                {
+                    list_of_words.Add(w);
+                    w = sr.ReadLine();
+                }
             }
-            sr.Close();
-            list_of_words.Remove("%finish");
 
             // poniżej główna pętla programu
             while (true)
@@ -39,9 +48,7 @@ namespace Wisielec
                 char[] ghost = Ghost(word);                                 //funkcja tworzy tablicę char wypełnioną myślnikami w ilości długości słowa word
                 List<string> typed = new();                                //lista wpisywanych liter  
 
-                //komunikaty końcowe
-                string success = ("Brawo! Odgadłeś słowo! - " + word);
-                string fail = ("Niestety! Przegrałeś :( Słowem było: " + word);
+                
 
                 while (true)
                 {
@@ -251,14 +258,14 @@ namespace Wisielec
 
                 if (lives < 1 && Array.IndexOf(ghost, '-') != -1)
                 {
-                    Console.WriteLine(fail);
+                    Console.WriteLine(fail + word);
                     DateTime time = DateTime.Now;
 
                     sw.WriteLine("{0} {1}", time, fail);
                 }
                 else
                 {
-                    Console.WriteLine(success);
+                    Console.WriteLine(success + word);
                     DateTime time = DateTime.Now;
 
                     sw.WriteLine("{0} {1}", time, success);
