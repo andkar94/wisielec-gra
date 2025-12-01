@@ -8,7 +8,7 @@ namespace Wisielec
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.Title = "Wisielec";
 
@@ -47,9 +47,7 @@ namespace Wisielec
                 word = list_of_words[rnd.Next(0, list_of_words.Count)];      //losowanie słowa z tablicy list_of_words              
                 char[] ghost = Ghost(word);                                 //funkcja tworzy tablicę char wypełnioną myślnikami w ilości długości słowa word
                 List<string> typed = new();                                //lista wpisywanych liter  
-
-                
-
+               
                 while (true)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
@@ -289,7 +287,8 @@ namespace Wisielec
         /// <returns> true or false</returns>
         static bool LetterChecker(string a)
         {
-            char[] letters = { 'A', 'Ą', 'B', 'C', 'Ć', 'D', 'E', 'Ę', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'Ł', 'M', 'N', 'Ń', 'O', 'Ó', 'P', 'Q', 'R', 'S', 'Ś', 'T', 'U', 'W', 'Y', 'X', 'Z', 'Ż', 'Ź', '*' };
+            char[] letters = { 'A', 'Ą', 'B', 'C', 'Ć', 'D', 'E', 'Ę', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'Ł', 
+                'M', 'N', 'Ń', 'O', 'Ó', 'P', 'Q', 'R', 'S', 'Ś', 'T', 'U', 'W', 'Y', 'X', 'Z', 'Ż', 'Ź', '*' };
 
             if (a.Length == 1)
             {
